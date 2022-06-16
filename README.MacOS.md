@@ -3,6 +3,12 @@ Building VeriFast on macOS
 
 Note: binary downloads are available, both ["nightly" builds](https://github.com/verifast/verifast#binaries) of the latest commit, and binaries for [named releases](https://github.com/verifast/verifast/releases).
 
+Note: A MacOS technology called [Gatekeeper](https://support.apple.com/en-us/HT202491) may block the VeriFast commands distribued with the binary download.  Unpacking the binary download will create a directory `verifast-M.m`.  Running the following [spctl](https://www.manpagez.com/man/8/spctl/) commands within `verifast-M.m` will unblock the VeriFast commands:
+```
+spctl --add $(find bin -type f -perm +111)
+spctl --add $(find lib -name '*.dylib')
+```
+
 Note: The instructions below may get out of date. When that happens, please submit an issue. In the meantime, guaranteed up-to-date instructions can be found by looking at the script, [.github/workflows/build.yml](https://github.com/verifast/verifast/blob/master/.github/workflows/build.yml), used by the Github Actions CI service that automatically builds and tests VeriFast after each commit. This script uses the `build_macos` job, which runs on a MacOS Catalina (10.15) virtual machine. It first runs the command listed below `Build setup:`, and then the command listed below `Build:`.
 
 Dependencies
@@ -34,7 +40,7 @@ To install the software needed to build VeriFast, first install Xcode (at least 
     - Ocplib-endian 1.1
     - Stdint 0.7.0
     - Result 1.5
-  
+
 It does so by downloading a [vf-llvm-clang-build](https://github.com/NielsMommen/vf-llvm-clang-build/releases/tag/v1.0.0) and [VFDeps](https://github.com/verifast/vfdeps) package with pre-compiled versions of these dependencies. Note: these binaries are location-dependent. They need to be below `/usr/local/vf-llvm-clang-build-$VERSION` and `/usr/local/vfdeps-$VERSION`, where `$VERSION` is the version (Git hash) of the package; that is, extract the archives into `/usr/local`. To see which version is currently being used, see [config.sh](https://github.com/verifast/verifast/blob/master/config.sh).
 
 Building VeriFast
